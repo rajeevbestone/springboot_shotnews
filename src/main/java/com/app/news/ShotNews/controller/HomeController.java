@@ -53,6 +53,26 @@ public class HomeController {
 
     }
 
+
+    @PostMapping("/groundNews")
+    public ResponseEntity<ResponseApi> createGroundNews(@RequestParam String title, @RequestParam String description, @RequestParam MultipartFile url,@RequestParam String originType)
+    {
+        return new ResponseEntity<>(ResponseApi
+                .builder()
+                .status(homeNewsService.createGroundLevel(title, description, originType,url))
+                .message(AppConstant.response)
+                .build(), HttpStatus.CREATED);
+
+
+    }
+
+
+
+
+
+
+
+
     @GetMapping()
     public ResponseEntity<ResponseApi> getHomePagedata() {
         return new ResponseEntity<>(ResponseApi

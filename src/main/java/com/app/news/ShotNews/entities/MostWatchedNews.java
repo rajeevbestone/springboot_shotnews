@@ -10,13 +10,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "home_slider")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class HomeSlider extends BaseEntity
-{
+public class MostWatchedNews {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +28,8 @@ public class HomeSlider extends BaseEntity
 
     @Column(length = 100000)
     private String description;
+
     private String image;
 
+    private String originType;
 }

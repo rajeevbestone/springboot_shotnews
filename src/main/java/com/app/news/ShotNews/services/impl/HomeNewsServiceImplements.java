@@ -1,9 +1,12 @@
 package com.app.news.ShotNews.services.impl;
 
+import com.app.news.ShotNews.config.AppConstant;
+import com.app.news.ShotNews.entities.GroundNews;
 import com.app.news.ShotNews.entities.HomeSlider;
 import com.app.news.ShotNews.entities.HotNews;
 import com.app.news.ShotNews.entities.LiveNews;
 import com.app.news.ShotNews.payload.HomeDTO;
+import com.app.news.ShotNews.repositories.GroundnewsRepo;
 import com.app.news.ShotNews.repositories.HomeSliderRepo;
 import com.app.news.ShotNews.repositories.HotNewsRepo;
 import com.app.news.ShotNews.repositories.LiveNewsRepo;
@@ -13,9 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -34,6 +39,9 @@ public class HomeNewsServiceImplements implements HomeNewsService
 
     @Autowired
     LiveNewsRepo liveNewsRepo;
+
+    @Autowired
+    GroundnewsRepo groundnewsRepo;
 
     @Value("${project.image}")
     private String path;
@@ -115,21 +123,143 @@ public class HomeNewsServiceImplements implements HomeNewsService
     }
 
     @Override
+    public Boolean createGroundLevel(String title, String description, String originType, MultipartFile url) {
+
+
+
+
+        String fileName = null;
+        try {
+            fileName = fileService.uploadImage(path, url);
+        } catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+        GroundNews groundNews=GroundNews.builder().title(title).description(description).slug("GROUND_NEWS").originType(originType).image(fileName).build();
+
+        GroundNews GroundNews1=    groundnewsRepo.save(groundNews);
+
+    if (GroundNews1!=null)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+
+    @Override
     public HomeDTO getHomePageData()
      {
+
+         String baseUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
 
          HomeDTO homeDTO=new HomeDTO();
 
          List<HotNews> hotNewsList=hotNewsRepo.findAll();
+
+         hotNewsList=  hotNewsList.stream()
+                 .map(news -> {
+                     HotNews dto = new HotNews();
+
+                     dto.setImage( baseUrl+ AppConstant.imageUrl+news.getImage());
+                     dto.setDescription(news.getDescription());
+                     dto.setSlug(news.getSlug());
+                     dto.setTitle(news.getTitle());
+                     dto.setCreatedAt(news.getCreatedAt());
+                     dto.setUpdatedAt(news.getUpdatedAt());
+                     dto.setIsActive(news.getIsActive());
+                     dto.setId(news.getId());
+
+
+
+                     return dto;
+                 })
+                 .collect(Collectors.toList());
+
+
+
          List<HomeSlider> homeSliders=homeSliderRepo.findAll();
+
+
+         homeSliders=  homeSliders.stream()
+                 .map(news -> {
+                     HomeSlider dto = new HomeSlider();
+
+                     dto.setImage( baseUrl+ AppConstant.imageUrl+news.getImage());
+                     dto.setDescription(news.getDescription());
+                     dto.setSlug(news.getSlug());
+                     dto.setTitle(news.getTitle());
+                     dto.setCreatedAt(news.getCreatedAt());
+                     dto.setUpdatedAt(news.getUpdatedAt());
+                     dto.setIsActive(news.getIsActive());
+                     dto.setId(news.getId());
+
+
+
+                     return dto;
+                 })
+                 .collect(Collectors.toList());
+
+
          List<LiveNews> liveNewsList=liveNewsRepo.findAll();
+
+         liveNewsList=  liveNewsList.stream()
+                 .map(news ->
+                 {
+                     LiveNews dto = new LiveNews();
+
+                     dto.setUrl( baseUrl+ AppConstant.imageUrl+news.getUrl());
+                     dto.setDescription(news.getDescription());
+                     dto.setSlug(news.getSlug());
+                     dto.setTitle(news.getTitle());
+                     dto.setUrlType(news.getUrlType());
+                     dto.setId(news.getId());
+
+
+
+
+                     return dto;
+                 })
+                 .collect(Collectors.toList());
+
+
+
+         List<GroundNews> groundNewsList=groundnewsRepo.findAll();
+
+         groundNewsList=  groundNewsList.stream()
+                 .map(news -> {
+                     GroundNews dto = new GroundNews();
+
+                     dto.setImage( baseUrl+ AppConstant.imageUrl+news.getImage());
+                     dto.setDescription(news.getDescription());
+                     dto.setSlug(news.getSlug());
+                     dto.setTitle(news.getTitle());
+                     dto.setOriginType(news.getOriginType());
+
+                     dto.setId(news.getId());
+
+
+
+                     return dto;
+                 })
+                 .collect(Collectors.toList());
+
+
+
+
          homeDTO.setHomeSliders(homeSliders);
          homeDTO.setLiveNews(liveNewsList);
          homeDTO.setHotNews(hotNewsList);
+         homeDTO.setGroundNewsList(groundNewsList);
 
 
         return homeDTO;
      }
+
+
+
 
 
 }

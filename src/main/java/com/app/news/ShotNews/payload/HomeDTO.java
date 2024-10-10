@@ -1,5 +1,6 @@
 package com.app.news.ShotNews.payload;
 
+import com.app.news.ShotNews.entities.GroundNews;
 import com.app.news.ShotNews.entities.HomeSlider;
 import com.app.news.ShotNews.entities.HotNews;
 import com.app.news.ShotNews.entities.LiveNews;
@@ -19,6 +20,7 @@ public class HomeDTO
   List<HomeSlider> homeSliders ;
   List<HotNews> hotNews ;
   List<LiveNews> liveNews ;
+  List<GroundNews> groundNewsList;
 
 
 

@@ -26,7 +26,8 @@ public abstract class BaseEntity {
 
 
     @PrePersist
-    protected void onCreate() {
+    protected void onCreate()
+    {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.isActive = true; // Default value

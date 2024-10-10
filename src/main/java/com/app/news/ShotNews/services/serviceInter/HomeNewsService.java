@@ -7,5 +7,8 @@ public interface HomeNewsService {
     Boolean createdHotNews(String title, String description, MultipartFile img);
     Boolean createHomeSlider(String title, String description, MultipartFile img);
     Boolean createLiveNews(String title, String description, String urlType, MultipartFile url);
+
+    Boolean createGroundLevel(String title, String description, String origin,MultipartFile url);
+
     HomeDTO getHomePageData();
 }
