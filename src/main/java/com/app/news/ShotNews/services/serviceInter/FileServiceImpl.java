@@ -12,7 +12,8 @@ import java.util.UUID;
 public class FileServiceImpl implements FileService {
 
     @Override
-    public String uploadImage(String path, MultipartFile file) throws IOException {
+    public String uploadImage(String path, MultipartFile file) throws IOException
+    {
 
         String originalFileName = file.getOriginalFilename();
         String randomId = UUID.randomUUID().toString();

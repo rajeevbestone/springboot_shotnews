@@ -55,7 +55,8 @@ public class MenuServiceImpl  implements MenuService {
             cartDTO.setSlug(cart.getTitle());
            return cartDTO;
           }).collect(Collectors.toList());
-        menuRepo.saveAll(cartDTOs);
+
+         menuRepo.saveAll(cartDTOs);
         return "";
     }
 

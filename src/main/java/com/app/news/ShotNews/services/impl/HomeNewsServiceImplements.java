@@ -60,7 +60,8 @@ public class HomeNewsServiceImplements implements HomeNewsService
         }
         HotNews hotNews=HotNews.builder().title(title).description(description).slug("hotnews").image(fileName).build();
 
-     HotNews hotNews1=    hotNewsRepo.save(hotNews);
+        HotNews hotNews1= hotNewsRepo.save(hotNews);
+
         if (hotNews1!=null)
         {
             return true;
@@ -160,9 +161,9 @@ public class HomeNewsServiceImplements implements HomeNewsService
          List<HotNews> hotNewsList=hotNewsRepo.findAll();
 
          hotNewsList=  hotNewsList.stream()
-                 .map(news -> {
+                 .map(news ->
+                 {
                      HotNews dto = new HotNews();
-
                      dto.setImage( baseUrl+ AppConstant.imageUrl+news.getImage());
                      dto.setDescription(news.getDescription());
                      dto.setSlug(news.getSlug());
@@ -171,10 +172,7 @@ public class HomeNewsServiceImplements implements HomeNewsService
                      dto.setUpdatedAt(news.getUpdatedAt());
                      dto.setIsActive(news.getIsActive());
                      dto.setId(news.getId());
-
-
-
-                     return dto;
+                  return dto;
                  })
                  .collect(Collectors.toList());
 
@@ -184,7 +182,8 @@ public class HomeNewsServiceImplements implements HomeNewsService
 
 
          homeSliders=  homeSliders.stream()
-                 .map(news -> {
+                 .map(news ->
+                 {
                      HomeSlider dto = new HomeSlider();
 
                      dto.setImage( baseUrl+ AppConstant.imageUrl+news.getImage());
