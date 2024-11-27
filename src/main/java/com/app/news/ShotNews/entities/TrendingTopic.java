@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Trending_Topics")
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

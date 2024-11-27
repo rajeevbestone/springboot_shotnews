@@ -103,6 +103,7 @@ public class HomePageController
         response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         StreamUtils.copy(resource,response.getOutputStream());
     }
+
     @GetMapping(value = "video/{imageName}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public void downloadVideo(@PathVariable("imageName") String imageName, HttpServletResponse response) throws IOException {
         InputStream resource = fileService.getResource(path, imageName); // Adjust the path for videos

@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppSettings extends BaseEntity {
+public class AppSettings extends BaseEntity
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,5 +22,8 @@ public class AppSettings extends BaseEntity {
 
     private String about;
     private String image;
+
+
+
 
 }

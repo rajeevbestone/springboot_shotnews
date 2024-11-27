@@ -47,5 +47,4 @@ public class Post extends BaseEntity{
     @Column(nullable = false)
     private String urlType;
 
-
 }

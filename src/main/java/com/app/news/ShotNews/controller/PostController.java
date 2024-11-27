@@ -19,15 +19,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Date;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
-public class PostController {
+public class PostController
+{
 
     @Autowired
     private PostServiceImpl postService;
@@ -41,12 +39,12 @@ public class PostController {
     @Autowired
     FileService fileService;
 
-
-    //    @PostMapping
+ //    @PostMapping
 //    public ResponseEntity<Post> createPost(@RequestBody Post post)
 //    {
 //        return new ResponseEntity<>(postService.createPost(post), HttpStatus.CREATED);
 //    }
+
 @Value("${project.image}")
 private String path;
 
@@ -59,7 +57,7 @@ private String path;
             @RequestParam("isSlider") boolean isSlider,
             @RequestParam("isLive") boolean isLive,
             @RequestParam("category_id") Long categoryId,
-            @RequestParam("subcategory_id") Long subcategoryId,
+            @RequestParam(value = "subcategory_id",required = false) Long subcategoryId ,
             @RequestParam("content") String content,
             @RequestParam("urlType") String urlType,
             @RequestParam("imagePath") MultipartFile imagePath) throws IOException
@@ -89,6 +87,7 @@ private String path;
         post.setUrlType(urlType);
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Product", "productId", categoryId));
         post.setCategory(category);
+
         if (subcategoryId != null)
         {
             Subcategory subcategory = subcategoryRepository.findById(subcategoryId).orElseThrow(() -> new ResourceNotFoundException("Product", "productId", subcategoryId));
@@ -120,7 +119,8 @@ private String path;
 
     @GetMapping("/category/{categorySlug}")
     public List<Post> getPostsByCategorySlug( @PathVariable String categorySlug,
-                                              @RequestParam(value = "subcategorySlug", required = false) String subcategorySlug)
+                                              @RequestParam(value = "subcategorySlug",
+                                                      required = false) String subcategorySlug)
     {
         return postService.getPostsByCategorySlug(categorySlug,subcategorySlug);
     }
